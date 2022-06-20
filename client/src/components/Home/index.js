@@ -6,6 +6,20 @@ import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
+import { makeStyles } from "@material-ui/core/styles";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import TextField from '@material-ui/core/TextField';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import Button from '@material-ui/core/Button';
+import { ToastContainer, toast } from 'material-react-toastify';
+import 'material-react-toastify/dist/ReactToastify.css';
 
 
 //Dev mode
@@ -114,51 +128,17 @@ class Home extends Component {
   render() {
     const { classes } = this.props;
 
-
-
-    const mainMessage = (
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        justify="flex-start"
-        alignItems="flex-start"
-        style={{ minHeight: '100vh' }}
-        className={classes.mainMessageContainer}
-      >
-        <Grid item>
-
-          <Typography
-            variant={"h3"}
-            className={classes.mainMessage}
-            align="flex-start"
-          >
-            {this.state.mode === 0 ? (
-              <React.Fragment>
-                Welcome to MSci245!
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                Welcome back!
-              </React.Fragment>
-            )}
-          </Typography>
-
-        </Grid>
-      </Grid>
-    )
-
-
     return (
       <MuiThemeProvider theme={theme}>
-        <div className={classes.root}>
+        <div>
+
+
           <CssBaseline />
           <Paper
             className={classes.paper}
           >
-            {mainMessage}
+            <Review />
           </Paper>
-
         </div>
       </MuiThemeProvider>
     );
@@ -169,4 +149,206 @@ Home.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Home);
+
+const MovieSelection = ({movieTitle, movieTitleChange}) => {
+  return (
+    <Grid item>
+        <FormControl>
+          <InputLabel id="demo-simple-select-label">Select a Movie:</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={movieTitle}
+            onChange={movieTitleChange}
+          >
+            <MenuItem value={'The GodFather'}>The Godfather</MenuItem>
+            <MenuItem value={'The LEGO Movie'}>The LEGO Movie</MenuItem>
+            <MenuItem value={'Casino Royale'}>Casino Royale</MenuItem>
+            <MenuItem value={'Johnny Test'}>Johnny Test</MenuItem>
+            <MenuItem value={'Moonlight'}>Moonlight</MenuItem>
+          </Select>
+        </FormControl>
+    </Grid>
+  )
+}
+
+
+const ReviewTitle = ({movieReviewTitle, movieReviewTitleChange}) => {
+  return (
+    <Grid item>
+      <form noValidate autoComplete="off">
+        <TextField
+          id="filled-basic"
+          label="Enter a Title for the Movie Review:"
+          variant="filled"
+          value={movieReviewTitle}
+          onChange={movieReviewTitleChange}
+        />
+      </form>
+    </Grid>
+  )
+}
+
+const ReviewBody = ({movieReview, movieReviewChange}) => {
+  return (
+    <Grid item>
+      <form noValidate autoComplete="off">
+        <div>
+          <TextField
+            id="standard-multiline-flexible"
+            label="Enter a Movie Review:"
+            multiline
+            value={movieReview}
+            onChange={movieReviewChange}
+            inputProps={{
+              maxLength: 200,
+            }}
+          />
+        </div>
+      </form>
+    </Grid>
+  )
+}
+
+const ReviewRating = ({movieRating, movieRatingChange}) => {
+  return (
+    <Grid item>
+      <FormControl component="fieldset">
+        <FormLabel component="legend">Rating</FormLabel>
+        <RadioGroup aria-label="Enter a Movie Rating:" name="rating" value={movieRating} onChange={movieRatingChange}>
+          <FormControlLabel value="1" control={<Radio />} label="1" />
+          <FormControlLabel value="2" control={<Radio />} label="2" />
+          <FormControlLabel value="3" control={<Radio />} label="3" />
+          <FormControlLabel value="4" control={<Radio />} label="4" />
+          <FormControlLabel value="5" control={<Radio />} label="5" />
+        </RadioGroup>
+      </FormControl>
+    </Grid>
+  )
+}
+
+const Review = () => {
+
+  const [movieTitle, setMovieTitle] = React.useState('')
+
+  const movieTitleChange = (event) => {
+    setMovieTitle(event.target.value);
+  }
+
+  const [movieReviewTitle, setMovieReviewTitle] = React.useState('')
+
+  const movieReviewTitleChange = (event) => {
+    setMovieReviewTitle(event.target.value);
+  }
+
+  const [movieReview, setMovieReview] = React.useState('');
+
+  const movieReviewChange = (event) => {
+    setMovieReview(event.target.value);
+  };
+
+  const [movieRating, setMovieRating] = React.useState('')
+
+  const movieRatingChange = (event) => {
+    setMovieRating(event.target.value);
+  }
+
+  const notifyReviewTitle = () => toast.warning("Please enter your review title");
+  const notifyReview = () => toast.warning("Please enter your review");
+  const notifyRating = () => toast.warning("Please enter your rating");
+  const notifySuccess = () => toast.success(
+    <div>
+      <h4>Your review has been received</h4>
+
+      <p>
+        Movie Title: {movieTitle}
+        <br></br>
+        Movie Review Title: {movieReviewTitle}
+        <br></br>
+        Movie Review: {movieReview}
+        <br></br>
+        Movie Rating: {movieRating}
+      </p>
+    </div>
+    );
+  
+
+  const movieEmpty = () => {
+    if (movieReviewTitle.length == 0) {
+      notifyReviewTitle();
+    }
+    if (movieReview.length == 0) {
+      notifyReview();
+    }
+    if (movieRating.length == 0) {
+      notifyRating();
+    }
+    if (movieReviewTitle.length != 0 && movieReview.length != 0 && movieRating.length != 0) {
+      notifySuccess();
+    }
+  }
+
+  return (
+    <Grid
+      container
+      spacing={8}
+      direction="column"
+      justify="flex-start"
+      alignItems="flex-start"
+      style={{ minHeight: '100vh' }}
+    >
+      <Grid item>
+        <Typography
+          variant={"h3"}
+          align="flex-start"
+        >
+          IMDB Review Page
+        </Typography>
+      </Grid>
+
+      <MovieSelection
+        movieTitle = {movieTitle}
+        movieTitleChange = {movieTitleChange}
+      />
+
+      <ReviewTitle
+        movieReviewTitle={movieReviewTitle}
+        movieReviewTitleChange={movieReviewTitleChange}
+      />
+
+      <ReviewBody
+        movieReview={movieReview}
+        movieReviewChange={movieReviewChange}
+      />
+
+      <ReviewRating
+        movieRating={movieRating}
+        movieRatingChange={movieRatingChange}
+      />
+
+      <Grid item>
+        <Button
+          variant="outlined"
+          onClick={movieEmpty}
+        >
+          Submit
+        </Button>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          />
+      </Grid>
+    </Grid>
+
+  )
+
+}
+
+export default withStyles(styles)(Home)
