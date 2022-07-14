@@ -6,10 +6,10 @@ import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import { makeStyles } from "@material-ui/core/styles";
+// import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
+// import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import TextField from '@material-ui/core/TextField';
@@ -23,10 +23,12 @@ import 'material-react-toastify/dist/ReactToastify.css';
 
 
 //Dev mode
-const serverURL = ""; //enable for dev mode
+//const serverURL = ""; //enable for dev mode
 
 //Deployment mode instructions
-//const serverURL = "http://ov-research-4.uwaterloo.ca:PORT"; //enable for deployed mode; Change PORT to the port number given to you;
+// const serverURL = "http://ov-research-4.uwaterloo.ca:3061"; //enable for deployed mode; Change PORT to the port number given to you;
+const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com:3061"; //enable for deployed mode; Change PORT to the port number given to you; 
+
 //To find your port number: 
 //ssh to ov-research-4.uwaterloo.ca and run the following command: 
 //env | grep "PORT"
@@ -95,11 +97,9 @@ class Home extends Component {
     //this.loadUserSettings();
   }
 
-
   loadUserSettings() {
     this.callApiLoadUserSettings()
       .then(res => {
-        //console.log("loadUserSettings returned: ", res)
         var parsed = JSON.parse(res.express);
         console.log("loadUserSettings parsed: ", parsed[0].mode)
         this.setState({ mode: parsed[0].mode });
@@ -124,6 +124,7 @@ class Home extends Component {
     console.log("User settings: ", body);
     return body;
   }
+
 
   render() {
     const { classes } = this.props;
@@ -150,7 +151,7 @@ Home.propTypes = {
 };
 
 
-const MovieSelection = ({movieTitle, movieTitleChange}) => {
+const MovieSelection = ({movieTitle, movieTitleChange, movies}) => {
   return (
     <Grid item>
         <FormControl>
@@ -161,11 +162,13 @@ const MovieSelection = ({movieTitle, movieTitleChange}) => {
             value={movieTitle}
             onChange={movieTitleChange}
           >
-            <MenuItem value={'The GodFather'}>The Godfather</MenuItem>
-            <MenuItem value={'The LEGO Movie'}>The LEGO Movie</MenuItem>
-            <MenuItem value={'Casino Royale'}>Casino Royale</MenuItem>
-            <MenuItem value={'Johnny Test'}>Johnny Test</MenuItem>
-            <MenuItem value={'Moonlight'}>Moonlight</MenuItem>
+            {movies.map(movie =>
+              <MenuItem 
+                data-id = {movie.id}
+                value = {movie.name}> 
+                {movie.name}
+              </MenuItem>
+            )}
           </Select>
         </FormControl>
     </Grid>
@@ -229,10 +232,88 @@ const ReviewRating = ({movieRating, movieRatingChange}) => {
 
 const Review = () => {
 
+  React.useEffect(() => {
+    getMovies();
+  }, [])
+
+  const getMovies = () => {
+    callApiGetMovies()
+      .then(res => {
+        console.log("callApiGetMovies returned: ", res)
+        var parsed = JSON.parse(res.express);
+        console.log("callApiGetMovies parsed: ", parsed);
+        setMovies(parsed);
+      })
+  }
+  
+  const callApiGetMovies = async () => {
+    const url = serverURL + "/api/getMovies";
+    console.log(url);
+  
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+  
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    console.log("User settings: ", body);
+    return body;
+  }
+  
+  const addReview = () => {
+    callApiAddReview()
+      .then(res => {
+        console.log("callApiAddReview returned: ", res)
+        var parsed = JSON.parse(res.express);
+        console.log("callApiAddReview parsed: ", parsed[0])
+        //setRecipesList(parsed);
+      });
+  }
+
+  const callApiAddReview = async () => {
+
+    const url = serverURL + "/api/addReview";
+    console.log(url);
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        //authorization: `Bearer ${this.state.token}`
+      },
+
+      // movie id, user id, reviewTitle, reviewContent, reviewScore)
+      body: JSON.stringify({
+        //calorieSearchTerm: calorieSearchTerm,
+        movieReviewTitle : movieReviewTitle,
+        movieReview : movieReview,
+        movieRating : movieRating,
+        movieID : movieID
+      }),
+    });
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    console.log("Found : ", body);
+    return body;
+  }
+  
+  const [movies, setMovies] = React.useState([]);
+  
   const [movieTitle, setMovieTitle] = React.useState('')
 
+  const [movieID, setMovieID] = React.useState('')
+
   const movieTitleChange = (event) => {
+    console.log(event.currentTarget.dataset)
     setMovieTitle(event.target.value);
+    setMovieID(event.currentTarget.dataset.id);
+  }
+
+  const moviesChange = (event) => {
+    setMovies(event.target.value)
   }
 
   const [movieReviewTitle, setMovieReviewTitle] = React.useState('')
@@ -252,6 +333,8 @@ const Review = () => {
   const movieRatingChange = (event) => {
     setMovieRating(event.target.value);
   }
+
+  const [reviewData, setReviewData] = React.useState('');
 
   const notifyReviewTitle = () => toast.warning("Please enter your review title");
   const notifyReview = () => toast.warning("Please enter your review");
@@ -274,17 +357,18 @@ const Review = () => {
   
 
   const movieEmpty = () => {
-    if (movieReviewTitle.length == 0) {
+    if (movieReviewTitle.length === 0) {
       notifyReviewTitle();
     }
-    if (movieReview.length == 0) {
+    if (movieReview.length === 0) {
       notifyReview();
     }
-    if (movieRating.length == 0) {
+    if (movieRating.length === 0) {
       notifyRating();
     }
-    if (movieReviewTitle.length != 0 && movieReview.length != 0 && movieRating.length != 0) {
+    if (movieReviewTitle.length !== 0 && movieReview.length !== 0 && movieRating.length !== 0) {
       notifySuccess();
+      addReview();
     }
   }
 
@@ -309,6 +393,7 @@ const Review = () => {
       <MovieSelection
         movieTitle = {movieTitle}
         movieTitleChange = {movieTitleChange}
+        movies = {movies}
       />
 
       <ReviewTitle
