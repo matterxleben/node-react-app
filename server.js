@@ -56,6 +56,27 @@ app.post('/api/getMovies', (req, res) => {
 	connection.end();
 });
 
+app.post('/api/romanceMovies', (req, res) => {
+
+	let connection = mysql.createConnection(config);
+	let sql = `SELECT a.name, a.year FROM movies a, movies_genres b WHERE b.genre = 'Romance' AND a.id =  b.movie_id`;
+	console.log(sql);
+	let data = []
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		//console.log(results);
+		let string = JSON.stringify(results);
+		// let obj = JSON.parse(string);
+		console.log(string)
+		res.send({ express: string });
+	});
+	connection.end();
+});
+
 app.post('/api/loadUserSettings', (req, res) => {
 
 	let connection = mysql.createConnection(config);
@@ -72,6 +93,7 @@ app.post('/api/loadUserSettings', (req, res) => {
 		}
 
 		let string = JSON.stringify(results);
+		console.log(string)
 		//let obj = JSON.parse(string);
 		res.send({ express: string });
 	});
@@ -80,7 +102,7 @@ app.post('/api/loadUserSettings', (req, res) => {
 
 
 
-//app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
-app.listen(port, '172.31.31.77'); //for the deployed version, specify the IP address of the server
+app.listen(port, () => console.log(`Listening on port ${port}`)); //for the dev version
+//app.listen(port, '172.31.31.77'); //for the deployed version, specify the IP address of the server
 
 
