@@ -10,8 +10,11 @@ import Grid from "@material-ui/core/Grid";
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
+import TextField from '@material-ui/core/TextField';
 
 // Searching button from Material UI
+
+/*
 
 const Searcher = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -53,107 +56,200 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         },
       },
     },
-  }));
-
-///////////////////////////////////////////////////////
-
-/*
-
-const [title, setTitle] = React.useState('')
-
-const[actorName, setActorName] = React.useState('')
-
-const[directorName, setDirectorName] = React.useState('')
-
-
-const titleChange = (event) => {
-    //console.log(event.currentTarget.dataset)
-    setTitle(event.target.value);
-    //setMovieID(event.currentTarget.dataset.id);
-  }
-
-const directorNameChange = (event) => {
-    setDirectorName(event.target.value);
-}
+}));
 
 */
 
+///////////////////////////////////////////////////////
+
+
+
 const Search = () => {
-  return (
-    <Grid
-    container
-    spacing={8}
-    direction="column"
-    justify="flex-start"
-    alignItems="flex-start"
-    style={{ minHeight: '100vh' }}
-    >
-        <Grid item>
-            <AppBar position="static">
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
-                <Typography
-                    variant="h6"
-                    noWrap
-                    component="a"
-                    href="/"
-                    sx={{
-                    mr: 2,
-                    display: { xs: "none", md: "flex" },
-                    fontFamily: "monospace",
-                    fontWeight: 700,
-                    letterSpacing: ".3rem",
-                    color: "inherit",
-                    textDecoration: "none"
+    const [title, setTitle] = React.useState('')
+
+    const[actorName, setActorName] = React.useState('')
+    const[actorNameList, setActorNameList] = React.useState('')
+    const[actorFirstName, setActorFirstName] = React.useState('')
+    const[actorLastName, setActorLastName] = React.useState('')
+
+    
+    const[directorName, setDirectorName] = React.useState('')
+    const[directorNameList, setDirectorNameList] = React.useState('')
+    const[directorFirstName, setDirectorFirstName] = React.useState('')
+    const[directorLastName, setDirectorLastName] = React.useState('')
+    
+    const titleChange = (event) => {
+        //console.log(event.currentTarget.dataset)
+        setTitle(event.target.value);
+        //setMovieID(event.currentTarget.dataset.id);
+    }
+    
+    const actorNameChange = (event) => {
+        setActorName(event.target.value);
+
+        
+    }     
+
+    const directorNameChange = (event) => {
+        setDirectorName(event.target.value);
+        setDirectorNameList(directorName.split(" "))
+        setDirectorFirstName(directorNameList[0])
+        setDirectorLastName(directorNameList[1])
+    }
+    
+    const searchSplitting = () => {
+        
+        setActorNameList(actorName.split(" "))
+        // setActorFirstName(actorNameList[0])
+        // setActorLastName(actorNameList[1])
+
+
+    }
+
+    const actorFirstNameChange = () => {
+        setActorFirstName(actorNameList[0])
+    }
+
+    const submitOnClick = () => {
+        searchSplitting()
+        actorFirstNameChange()
+
+        /*
+        console.log(actorFirstName)
+        console.log(actorLastName)
+
+        console.log(actorName)
+        console.log(actorNameList)
+        
+        console.log(actorFirstName)
+        console.log(actorLastName)
+        console.log(title)
+        */
+        console.log(actorFirstName)
+        console.log(actorLastName)
+
+
+    }
+
+    return (
+        <Grid
+        container
+        spacing={8}
+        direction="column"
+        justify="flex-start"
+        alignItems="flex-start"
+        style={{ minHeight: '100vh' }}
+        >
+            <Grid item>
+                <AppBar position="static">
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="a"
+                        href="/"
+                        sx={{
+                        mr: 2,
+                        display: { xs: "none", md: "flex" },
+                        fontFamily: "monospace",
+                        fontWeight: 700,
+                        letterSpacing: ".3rem",
+                        color: "inherit",
+                        textDecoration: "none"
+                        }}
+                    >
+                        Matts IMDB Page
+                    </Typography>
+                    <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+
+                        <Button
+                            key={'Search'}
+                            sx={{ my: 2, color: "white", display: "block" }}
+                            onClick={() => history.push('/search')}
+                        >
+                            Search
+                        </Button>
+
+                        <Button
+                            key={'Search'}
+                            sx={{ my: 2, color: "white", display: "block" }}
+                            onClick={() => history.push('/reviews')}
+                        >
+                            Reviews
+                        </Button>
+
+                        <Button
+                            key={'MyPage'}
+                            sx={{ my: 2, color: "white", display: "block" }}
+                            onClick={() => history.push('/myPage')}
+                        >
+                            Romance movies
+                        </Button>
+
+
+                    </Box>
+                    </Toolbar>
+                </Container>
+                </AppBar>
+            </Grid>
+
+            <Grid item>
+                <TextField
+                    id="standard-multiline-flexible"
+                    label="Movie Title"
+                    multiline
+                    value={title}
+                    onChange={titleChange}
+                    inputProps={{
+                    maxLength: 200,
                     }}
+                />                            
+
+            </Grid>
+            <Grid item>
+                <form noValidate autoComplete="off">
+                    <div>
+                        <TextField
+                            id="standard-multiline-flexible"
+                            label="Actor's first name + last name"
+                            multiline
+                            value={actorName}
+                            onChange={actorNameChange}
+                            inputProps={{
+                            maxLength: 200,
+                            }}
+                        />
+                    </div>
+                </form>
+            </Grid>
+            <Grid item>
+                <form noValidate autoComplete="off">
+                    <div>
+                        <TextField
+                            id="standard-multiline-flexible"
+                            label="Director's first name + last name"
+                            multiline
+                            value={directorName}
+                            onChange={directorNameChange}
+                            inputProps={{
+                            maxLength: 200,
+                            }}
+                        />
+                    </div>
+                </form>
+            </Grid>
+            <Grid item>
+                <Button
+                variant="outlined"
+                onClick={submitOnClick}
                 >
-                    Matts IMDB Page
-                </Typography>
-                <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-
-                    <Button
-                        key={'Search'}
-                        sx={{ my: 2, color: "white", display: "block" }}
-                        onClick={() => history.push('/search')}
-                    >
-                        Search
-                    </Button>
-
-                    <Button
-                        key={'Search'}
-                        sx={{ my: 2, color: "white", display: "block" }}
-                        onClick={() => history.push('/reviews')}
-                    >
-                        Reviews
-                    </Button>
-
-                    <Button
-                        key={'MyPage'}
-                        sx={{ my: 2, color: "white", display: "block" }}
-                        onClick={() => history.push('/myPage')}
-                    >
-                        Romance movies
-                    </Button>
+                Submit
+                </Button>
+            </Grid>
 
 
-                </Box>
-                </Toolbar>
-            </Container>
-            </AppBar>
         </Grid>
-
-        <Grid item>
-            <Searcher>
-                <SearchIconWrapper>
-                    <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                    placeholder="Actor's first name + last name"
-                    inputProps={{ 'aria-label': 'search' }}
-                />
-            </Searcher>
-        </Grid>
-    </Grid>
-  );
+    );
 };
 export default Search;

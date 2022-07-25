@@ -71,7 +71,7 @@ app.post('/api/romanceMovies', (req, res) => {
 		//console.log(results);
 		let string = JSON.stringify(results);
 		// let obj = JSON.parse(string);
-		console.log(string)
+		//console.log(string)
 		res.send({ express: string });
 	});
 	connection.end();
