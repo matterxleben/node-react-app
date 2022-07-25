@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
+//import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 // import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -20,6 +20,13 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Button from '@material-ui/core/Button';
 import { ToastContainer, toast } from 'material-react-toastify';
 import 'material-react-toastify/dist/ReactToastify.css';
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+// import Button from "@mui/material/Button";
+import history from '../Navigation/history';
 
 
 //Dev mode
@@ -381,6 +388,62 @@ const Review = () => {
       alignItems="flex-start"
       style={{ minHeight: '100vh' }}
     >
+    
+    <Grid item>
+    <AppBar position="static">
+        <Container maxWidth="xl">
+            <Toolbar disableGutters>
+            <Typography
+                variant="h6"
+                noWrap
+                component="a"
+                href="/"
+                sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "monospace",
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                color: "inherit",
+                textDecoration: "none"
+                }}
+            >
+                Matts IMDB Page
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+
+                <Button
+                    key={'Search'}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                    onClick={() => history.push('/search')}
+                >
+                    Search
+                </Button>
+
+                <Button
+                    key={'Search'}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                    onClick={() => history.push('/reviews')}
+                >
+                    Reviews
+                </Button>
+
+                <Button
+                    key={'MyPage'}
+                    sx={{ my: 2, color: "white", display: "block" }}
+                    onClick={() => history.push('/myPage')}
+                >
+                    Romance movies
+                </Button>
+
+
+            </Box>
+            </Toolbar>
+        </Container>
+      </AppBar>
+      </Grid>
+
+    
       <Grid item>
         <Typography
           variant={"h3"}
