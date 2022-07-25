@@ -165,7 +165,6 @@ const MyPage = () => {
                 )}
             </List>
         </Grid>
-
     </Grid>
     
 
