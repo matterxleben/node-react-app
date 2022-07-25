@@ -77,6 +77,77 @@ app.post('/api/romanceMovies', (req, res) => {
 	connection.end();
 });
 
+app.post('/api/searchMovies', (req, res) => {
+	let title = (req.body.title + "%");
+	let actorName = req.body.actorName;
+	let directorName = req.body.directorName;
+
+	let actorNameList = actorName.split("+")
+	let directorNameList = directorName.split("+")
+
+	let actorFirstName = (actorNameList[0] + "%")
+	let actorLastName = "%"
+	if (actorName.length > 1) {
+		actorLastName = (actorNameList[1] + "%")
+	}
+
+	let directorFirstName = (directorNameList[0] + "%")
+	let directorLastName = "%"
+	if (directorName.length > 1) {
+		directorLastName = (directorNameList[1] + "%")
+	}
+
+	console.log("TITLE: " + title)
+	console.log("ACTOR NAME: " + actorName)
+	console.log("DIRECTOR NAME: " + directorName)
+
+	console.log("D FIRST NAME: " + directorFirstName)
+	console.log("D LAST NAME: " + directorLastName)
+
+	let connection = mysql.createConnection(config);
+	// let sql = `SELECT * FROM directors WHERE first_name = ? AND last_name = ?;`;
+	
+	let sql = `SELECT m.name, d.first_name, d.last_name, rev.reviewContent, sc.averageScore
+	FROM Review rev
+	LEFT OUTER JOIN movies m ON rev.movieID = m.id
+	LEFT OUTER JOIN movies_directors md ON rev.movieID = md.movie_id 
+	LEFT OUTER JOIN directors d ON md.director_id = d.id
+	LEFT OUTER JOIN ( 
+	SELECT movieID, avg(reviewScore) as averageScore
+	FROM Review
+	GROUP BY movieID
+	) sc ON rev.movieID = sc.movieID
+	WHERE m.name LIKE ?
+	AND d.first_name LIKE ?
+	AND d.last_name LIKE ?
+	AND m.id IN (
+	SELECT movie_id
+	FROM movies m
+	RIGHT OUTER JOIN roles r ON m.id = r.movie_id
+	LEFT OUTER JOIN actors a ON r.actor_id = a.id
+	WHERE a.first_name LIKE ?
+	AND a.last_name LIKE ? )`;
+	
+	
+	//console.log(sql);
+	//let data = [title, actorFirstName, actorLastName, directorFirstName, directorLastName]
+	let data = [title, directorFirstName, directorLastName, actorFirstName, actorLastName]
+	console.log(data);
+
+	connection.query(sql, data, (error, results, fields) => {
+		if (error) {
+			return console.error(error.message);
+		}
+
+		//console.log(results);
+		let string = JSON.stringify(results);
+		// let obj = JSON.parse(string);
+		console.log(string)
+		res.send({ express: string });
+	});
+	connection.end();
+});
+
 app.post('/api/loadUserSettings', (req, res) => {
 
 	let connection = mysql.createConnection(config);

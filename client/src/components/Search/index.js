@@ -11,6 +11,24 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import TextField from '@material-ui/core/TextField';
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import Divider from "@mui/material/Divider";
+
+//Dev mode
+const serverURL = ""; //enable for dev mode
+
+//Deployment mode instructions
+// const serverURL = "http://ov-research-4.uwaterloo.ca:3061"; //enable for deployed mode; Change PORT to the port number given to you;
+//const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com:3061"; //enable for deployed mode; Change PORT to the port number given to you; 
+
+//To find your port number: 
+//ssh to ov-research-4.uwaterloo.ca and run the following command: 
+//env | grep "PORT"
+//copy the number only and paste it in the serverURL in place of PORT, e.g.: const serverURL = "http://ov-research-4.uwaterloo.ca:3000";
+
+const fetch = require("node-fetch");
 
 // Searching button from Material UI
 
@@ -77,6 +95,13 @@ const Search = () => {
     const[directorNameList, setDirectorNameList] = React.useState('')
     const[directorFirstName, setDirectorFirstName] = React.useState('')
     const[directorLastName, setDirectorLastName] = React.useState('')
+
+    const[searchResults, setSearchResults] = React.useState([])
+
+    const searchResultsChange = (event) => {
+        setSearchResults(event.target.value)
+    }
+
     
     const titleChange = (event) => {
         //console.log(event.currentTarget.dataset)
@@ -86,49 +111,71 @@ const Search = () => {
     
     const actorNameChange = (event) => {
         setActorName(event.target.value);
-
         
     }     
 
     const directorNameChange = (event) => {
         setDirectorName(event.target.value);
-        setDirectorNameList(directorName.split(" "))
-        setDirectorFirstName(directorNameList[0])
-        setDirectorLastName(directorNameList[1])
     }
     
+    /*
     const searchSplitting = () => {
         
         setActorNameList(actorName.split(" "))
-        // setActorFirstName(actorNameList[0])
-        // setActorLastName(actorNameList[1])
-
-
-    }
-
-    const actorFirstNameChange = () => {
         setActorFirstName(actorNameList[0])
+        setActorLastName(actorNameList[1])
+
+        setDirectorNameList(directorName.split(" "))
+        setDirectorFirstName(directorNameList[0])
+        setDirectorLastName(directorNameList[1])
+
     }
+    */
+
+
+    const searchMovies = () => {
+        callApiSearchMovies()
+          .then(res => {
+            console.log("callApiSearchMovies returned: ", res)
+            var parsed = JSON.parse(res.express);
+            console.log("callApiSearchMovies parsed: ", parsed[0])
+            //setRecipesList(parsed);
+            setSearchResults(parsed);
+          });
+    }
+    
+    const callApiSearchMovies = async () => {
+    
+        const url = serverURL + "/api/searchMovies";
+        console.log(url);
+    
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            //authorization: `Bearer ${this.state.token}`
+          },
+    
+          body: JSON.stringify({
+            title : title,
+            actorName : actorName,
+            directorName : directorName,
+            actorFirstName : actorFirstName,
+            actorLastName : actorLastName,
+            directorFirstName : directorFirstName,
+            directorLastName : directorLastName
+          }),
+
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        console.log("Found : ", body);
+        return body;
+    }
+    
 
     const submitOnClick = () => {
-        searchSplitting()
-        actorFirstNameChange()
-
-        /*
-        console.log(actorFirstName)
-        console.log(actorLastName)
-
-        console.log(actorName)
-        console.log(actorNameList)
-        
-        console.log(actorFirstName)
-        console.log(actorLastName)
-        console.log(title)
-        */
-        console.log(actorFirstName)
-        console.log(actorLastName)
-
-
+        searchMovies()
     }
 
     return (
@@ -246,6 +293,18 @@ const Search = () => {
                 >
                 Submit
                 </Button>
+            </Grid>
+            <Grid item>
+                <List>
+                    {searchResults.map(result =>
+                        <>
+                            <ListItem disablePadding>
+                                <ListItemText primary={result.name} secondary= {['Director First Name: ' + result.first_name, ', Director Last Name: ' + result.last_name, ', Review Text: ' + result.reviewContent, ', Average User Rating: ' + result.averageScore]}/>
+                            </ListItem>
+                            <Divider />
+                        </>
+                    )}
+                </List>
             </Grid>
 
 
