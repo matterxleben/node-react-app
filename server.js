@@ -59,7 +59,7 @@ app.post('/api/getMovies', (req, res) => {
 app.post('/api/romanceMovies', (req, res) => {
 
 	let connection = mysql.createConnection(config);
-	let sql = `SELECT a.name, a.year FROM movies a, movies_genres b WHERE b.genre = 'Romance' AND a.id =  b.movie_id`;
+	let sql = `SELECT a.name, a.year, a.trailer FROM movies a, movies_genres b WHERE b.genre = 'Romance' AND a.id =  b.movie_id`;
 	console.log(sql);
 	let data = []
 
