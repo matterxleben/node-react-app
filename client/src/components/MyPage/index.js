@@ -134,7 +134,7 @@ const MyPage = () => {
 
         <Grid item>
             <Typography
-                    variant="h6"
+                    variant="h5"
                     noWrap
                     href="/"
                     sx={{
@@ -152,6 +152,33 @@ const MyPage = () => {
 
         </Grid>
 
+        <Grid item>
+            <Typography
+                    variant="h6"
+                    noWrap
+                    href="/"
+                    sx={{
+                    mr: 2,
+                    display: { xs: "none", md: "flex" },
+                    fontFamily: "monospace",
+                    fontWeight: 700,
+                    letterSpacing: ".3rem",
+                    color: "inherit",
+                    textDecoration: "none"
+                    }}
+                >
+                    Click the Trailer button to watch each specific movies trailer
+                    <br></br>
+                    The movies Annie Hall, Barry Lyndon, Beauty and the Beast, Ben-Hur, and Casablanca
+                    <br></br>
+                    have trailers linked to the button 
+                    <br></br>
+                    (Anus Magillicutty didnt have a trailer, so check out the suprise on the link instead!)
+
+            </Typography>
+
+        </Grid>
+
 
         <Grid item>
             <List>
@@ -160,10 +187,18 @@ const MyPage = () => {
                         <ListItem disablePadding>
                             <ListItemText primary={movie.name} secondary= {'Release Year: ' + movie.year}/>
                         </ListItem>
+                        <Button variant="contained" href={movie.trailer}>
+                            Click for the Movie Trailer!
+                        </Button>
                         <Divider />
                     </>
                 )}
             </List>
+        </Grid>
+
+        <Grid item>
+
+
         </Grid>
     </Grid>
     
