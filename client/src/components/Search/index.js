@@ -15,6 +15,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
+import { FormControl } from "@material-ui/core";
 
 //Dev mode
 const serverURL = ""; //enable for dev mode
@@ -30,55 +31,7 @@ const serverURL = ""; //enable for dev mode
 
 const fetch = require("node-fetch");
 
-// Searching button from Material UI
 
-/*
-
-const Searcher = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
-    },
-}));
-  
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('sm')]: {
-        width: '40ch',
-        '&:focus': {
-          width: '40ch',
-        },
-      },
-    },
-}));
-
-*/
-
-///////////////////////////////////////////////////////
 
 
 
@@ -141,6 +94,7 @@ const Search = () => {
             console.log("callApiSearchMovies parsed: ", parsed[0])
             //setRecipesList(parsed);
             setSearchResults(parsed);
+            getReviewContent()
           });
     }
     
@@ -178,17 +132,25 @@ const Search = () => {
         searchMovies()
     }
 
+    const getReviewContent = () => {
+        //prevTitle = searchResults[0].name
+        
+        searchResults.forEach((result)=>{
+            console.log(result)
+
+
+        })
+
+    }
+
     return (
         <Grid
         container
-        spacing={8}
+        spacing={10}
         direction="column"
-        justify="flex-start"
-        alignItems="flex-start"
-        style={{ minHeight: '100vh' }}
         >
             <Grid item>
-                <AppBar position="static">
+                <AppBar position="static" style={{background:"purple"}}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                     <Typography
@@ -240,39 +202,74 @@ const Search = () => {
                 </Container>
                 </AppBar>
             </Grid>
-
+            
             <Grid item>
-                <TextField
-                    id="standard-multiline-flexible"
-                    label="Movie Title"
-                    multiline
-                    value={title}
-                    onChange={titleChange}
-                    inputProps={{
-                    maxLength: 200,
-                    }}
-                />                            
-
+                <Typography
+                        variant="h5"
+                        noWrap
+                        href="/"
+                        align = "center"
+                        sx={{
+                        fontFamily: "monospace",
+                        fontWeight: 700,
+                        letterSpacing: ".01rem",
+                        color: "inherit",
+                        }}
+                    >
+                        Please enter Actors and Directors name using the following format: FirstName+LastName
+                        <br></br>
+                        
+                        <br></br>
+                        Please make sure there is a '+' between the first and last name
+                        <br></br>
+                        e.g. To find the actor Kevin Spacey, enter: Kevin+Spacey
+                </Typography>
             </Grid>
+            <Container maxWidth = 'sm'>
             <Grid item>
-                <form noValidate autoComplete="off">
-                    <div>
+                <Box sx={{p:2}}>
+                    <FormControl fullWidth>
                         <TextField
                             id="standard-multiline-flexible"
-                            label="Actor's first name + last name"
+                            label="Movie Title"
                             multiline
-                            value={actorName}
-                            onChange={actorNameChange}
+                            value={title}
+                            onChange={titleChange}
+                            xs = {6}
+                            
                             inputProps={{
                             maxLength: 200,
+                            
                             }}
                         />
-                    </div>
-                </form>
+                    </FormControl>
+                </Box>
             </Grid>
             <Grid item>
+                <Box sx={{p:2}}>
                 <form noValidate autoComplete="off">
                     <div>
+                            <FormControl fullWidth>
+                                <TextField
+                                    id="standard-multiline-flexible"
+                                    label="Actor's first name + last name"
+                                    multiline
+                                    value={actorName}
+                                    onChange={actorNameChange}
+                                    inputProps={{
+                                    maxLength: 200,
+                                    }}
+                                />
+                            </FormControl>
+                    </div>
+                </form>
+                </Box>
+            </Grid>
+            <Grid item>
+                <Box sx={{p:2}}>
+                <form noValidate autoComplete="off">
+                    <div>
+                    <FormControl fullWidth>
                         <TextField
                             id="standard-multiline-flexible"
                             label="Director's first name + last name"
@@ -283,28 +280,38 @@ const Search = () => {
                             maxLength: 200,
                             }}
                         />
+                    </FormControl>
                     </div>
                 </form>
+                </Box>
             </Grid>
             <Grid item>
-                <Button
-                variant="outlined"
-                onClick={submitOnClick}
-                >
-                Submit
-                </Button>
+                <Box sx={{p:2}}>
+                    <FormControl fullWidth>
+                        <Button
+                        variant="outlined"
+                        onClick={submitOnClick}
+                        >
+                        Submit
+                        </Button>
+                    </FormControl>
+                </Box>
             </Grid>
+            </Container>
             <Grid item>
                 <List>
                     {searchResults.map(result =>
                         <>
-                            <ListItem disablePadding>
-                                <ListItemText primary={result.name} secondary= {['Director First Name: ' + result.first_name, ', Director Last Name: ' + result.last_name, ', Review Text: ' + result.reviewContent, ', Average User Rating: ' + result.averageScore]}/>
-                            </ListItem>
+                            <Box sx={{p:2}}>
+                                <ListItem disablePadding>
+                                    <ListItemText primary={result.name} secondary= {['Director First Name: ' + result.first_name, <br></br>, 'Director Last Name: ' + result.last_name, <br></br>, 'Average User Rating: ' + result.averageScore, <br></br>, 'Review Text: ' + result.reviewContentList]}/>
+                                </ListItem>
+                            </Box>
                             <Divider />
                         </>
                     )}
                 </List>
+
             </Grid>
 
 

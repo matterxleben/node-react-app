@@ -75,11 +75,11 @@ const MyPage = () => {
     return (
     <Grid
         container
-        spacing={2}
+        spacing={10}
         direction="column"
     >
         <Grid item>
-            <AppBar position="static">
+            <AppBar position="static" style={{background:"purple"}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                 <Typography
@@ -131,65 +131,69 @@ const MyPage = () => {
             </Container>
             </AppBar>
         </Grid>
+        <Container maxWidth = 'xl'>
+            <Grid item>
 
-        <Grid item>
-            <Typography
-                    variant="h5"
-                    noWrap
-                    href="/"
-                    sx={{
-                    mr: 2,
-                    display: { xs: "none", md: "flex" },
-                    fontFamily: "monospace",
-                    fontWeight: 700,
-                    letterSpacing: ".3rem",
-                    color: "inherit",
-                    textDecoration: "none"
-                    }}
-                >
-                    This is a list of Romance Movies (Matt's favourite genre!) &nbsp; <FavoriteIcon />
-            </Typography>
+                <Typography
+                        variant="h5"
+                        noWrap
+                        href="/"
+                        align = "center"
+                        sx={{
+                        fontFamily: "monospace",
+                        fontWeight: 700,
+                        letterSpacing: ".01rem",
+                        color: "inherit",
+                        }}
+                    >
+                        &nbsp;<FavoriteIcon /> This is a list of Romance Movies (Matt's favourite genre!)&nbsp;<FavoriteIcon />
+                </Typography>
 
-        </Grid>
+                
 
-        <Grid item>
-            <Typography
-                    variant="h6"
-                    noWrap
-                    href="/"
-                    sx={{
-                    mr: 2,
-                    display: { xs: "none", md: "flex" },
-                    fontFamily: "monospace",
-                    fontWeight: 700,
-                    letterSpacing: ".3rem",
-                    color: "inherit",
-                    textDecoration: "none"
-                    }}
-                >
-                    Click the Trailer button to watch each specific movies trailer
-                    <br></br>
-                    The movies Annie Hall, Barry Lyndon, Beauty and the Beast, Ben-Hur, and Casablanca
-                    <br></br>
-                    have trailers linked to the button 
-                    <br></br>
-                    (Anus Magillicutty didnt have a trailer, so check out the suprise on the link instead!)
+            </Grid>
+            
+            <Grid item>
+                <Box sx={{p:2}}>
+                    <FormControl fullWidth>
+                        <Typography
+                                variant="h6"
+                                noWrap
+                                href="/"
+                                align = "center"
+                                sx={{
+                                fontFamily: "monospace",
+                                fontWeight: 700,
+                                letterSpacing: ".01rem",
+                                color: "inherit",
+                                }}
+                            >
+                                Click the Trailer button to watch each specific movie trailer
+                                <br></br>
+                                The movies Annie Hall, Barry Lyndon, Beauty and the Beast, Ben-Hur, and Casablanca have trailers linked to the button 
+                                <br></br>
+                                (Anus Magillicutty didnt have a trailer, so check out that link for a suprise instead!)
 
-            </Typography>
+                        </Typography>
+                    </FormControl>
+                </Box>
 
-        </Grid>
+            </Grid>
+        </Container>
 
 
         <Grid item>
             <List>
                 {romanceMoviesList.map(movie =>
                     <>
-                        <ListItem disablePadding>
-                            <ListItemText primary={movie.name} secondary= {'Release Year: ' + movie.year}/>
-                        </ListItem>
-                        <Button variant="contained" href={movie.trailer}>
-                            Click for the Movie Trailer!
-                        </Button>
+                        <Box sx={{p:2}}>
+                            <ListItem disablePadding>
+                                <ListItemText primary={movie.name} secondary= {'Release Year: ' + movie.year}/>
+                            </ListItem>
+                            <Button variant="contained" href={movie.trailer}>
+                                Movie Trailer
+                            </Button>
+                        </Box>
                         <Divider />
                     </>
                 )}
