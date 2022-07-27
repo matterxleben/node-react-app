@@ -46,19 +46,19 @@ const fetch = require("node-fetch");
 const opacityValue = 0.9;
 
 const theme = createTheme({
-  palette: {
-    type: 'dark',
-    background: {
-      default: "#000000"
+    palette: {
+      type: 'dark',
+      background: {
+        default: "#000000"
+      },
+      primary: {
+        main: "#52f1ff",
+      },
+      secondary: {
+        main: "#b552f7",
+      },
     },
-    primary: {
-      main: "#52f1ff",
-    },
-    secondary: {
-      main: "#b552f7",
-    },
-  },
-});
+  });
 
 const styles = theme => ({
   root: {
@@ -134,34 +134,23 @@ class Home extends Component {
 
 
   render() {
-    const { classes } = this.props;
-
     return (
-      <MuiThemeProvider theme={theme}>
-        <div>
-
-
-          <CssBaseline />
-          <Paper
-            className={classes.paper}
-          >
-            <Review />
-          </Paper>
-        </div>
-      </MuiThemeProvider>
+        
+            <div>
+                <Review />
+            </div>
     );
   }
 }
 
-Home.propTypes = {
-  classes: PropTypes.object.isRequired
-};
+
 
 
 const MovieSelection = ({movieTitle, movieTitleChange, movies}) => {
   return (
     <Grid item>
-        <FormControl>
+      <Box sx={{p:2}}>
+        <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Select a Movie:</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -178,6 +167,7 @@ const MovieSelection = ({movieTitle, movieTitleChange, movies}) => {
             )}
           </Select>
         </FormControl>
+        </Box>
     </Grid>
   )
 }
@@ -187,13 +177,17 @@ const ReviewTitle = ({movieReviewTitle, movieReviewTitleChange}) => {
   return (
     <Grid item>
       <form noValidate autoComplete="off">
-        <TextField
-          id="filled-basic"
-          label="Enter a Title for the Movie Review:"
-          variant="filled"
-          value={movieReviewTitle}
-          onChange={movieReviewTitleChange}
-        />
+      <Box sx={{p:2}}>
+        <FormControl fullWidth>
+            <TextField
+                id="filled-basic"
+                label="Enter a Title for the Movie Review:"
+                variant="filled"
+                value={movieReviewTitle}
+                onChange={movieReviewTitleChange}
+            />
+        </FormControl>
+      </Box>
       </form>
     </Grid>
   )
@@ -204,16 +198,20 @@ const ReviewBody = ({movieReview, movieReviewChange}) => {
     <Grid item>
       <form noValidate autoComplete="off">
         <div>
-          <TextField
-            id="standard-multiline-flexible"
-            label="Enter a Movie Review:"
-            multiline
-            value={movieReview}
-            onChange={movieReviewChange}
-            inputProps={{
-              maxLength: 200,
-            }}
-          />
+            <Box sx={{p:2}}>
+                <FormControl fullWidth>
+                    <TextField
+                        id="standard-multiline-flexible"
+                        label="Enter a Movie Review:"
+                        multiline
+                        value={movieReview}
+                        onChange={movieReviewChange}
+                        inputProps={{
+                        maxLength: 200,
+                        }}
+                    />
+                </FormControl>
+            </Box>
         </div>
       </form>
     </Grid>
@@ -223,16 +221,18 @@ const ReviewBody = ({movieReview, movieReviewChange}) => {
 const ReviewRating = ({movieRating, movieRatingChange}) => {
   return (
     <Grid item>
-      <FormControl component="fieldset">
-        <FormLabel component="legend">Rating</FormLabel>
-        <RadioGroup aria-label="Enter a Movie Rating:" name="rating" value={movieRating} onChange={movieRatingChange}>
-          <FormControlLabel value="1" control={<Radio />} label="1" />
-          <FormControlLabel value="2" control={<Radio />} label="2" />
-          <FormControlLabel value="3" control={<Radio />} label="3" />
-          <FormControlLabel value="4" control={<Radio />} label="4" />
-          <FormControlLabel value="5" control={<Radio />} label="5" />
-        </RadioGroup>
-      </FormControl>
+        <Box sx={{p:2}}>
+            <FormControl fullWidth component="fieldset">
+                <FormLabel component="legend">Rating</FormLabel>
+                <RadioGroup aria-label="Enter a Movie Rating:" name="rating" value={movieRating} onChange={movieRatingChange}>
+                <FormControlLabel value="1" control={<Radio />} label="1" />
+                <FormControlLabel value="2" control={<Radio />} label="2" />
+                <FormControlLabel value="3" control={<Radio />} label="3" />
+                <FormControlLabel value="4" control={<Radio />} label="4" />
+                <FormControlLabel value="5" control={<Radio />} label="5" />
+                </RadioGroup>
+            </FormControl>
+        </Box>
     </Grid>
   )
 }
@@ -384,115 +384,127 @@ const Review = () => {
       container
       spacing={8}
       direction="column"
-      justify="flex-start"
-      alignItems="flex-start"
-      style={{ minHeight: '100vh' }}
     >
     
     <Grid item>
-    <AppBar position="static">
-        <Container maxWidth="xl">
-            <Toolbar disableGutters>
-            <Typography
-                variant="h6"
-                noWrap
-                component="a"
-                href="/"
-                sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none"
-                }}
-            >
-                Matts IMDB Page
-            </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+        <MuiThemeProvider theme={theme}>
+            <AppBar position="static" style={{background:"purple"}}>
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="a"
+                        href="/"
+                        sx={{
+                        mr: 2,
+                        display: { xs: "none", md: "flex" },
+                        fontFamily: "monospace",
+                        fontWeight: 700,
+                        letterSpacing: ".3rem",
+                        color: "inherit",
+                        textDecoration: "none"
+                        }}
+                    >
+                        Matts IMDB Page
+                    </Typography>
+                    <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
 
-                <Button
-                    key={'Search'}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                    onClick={() => history.push('/search')}
-                >
-                    Search
-                </Button>
+                        <Button
+                            key={'Search'}
+                            sx={{ my: 2, color: "white", display: "block" }}
+                            onClick={() => history.push('/search')}
+                        >
+                            Search
+                        </Button>
 
-                <Button
-                    key={'Search'}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                    onClick={() => history.push('/reviews')}
-                >
-                    Reviews
-                </Button>
+                        <Button
+                            key={'Search'}
+                            sx={{ my: 2, color: "white", display: "block" }}
+                            onClick={() => history.push('/reviews')}
+                        >
+                            Reviews
+                        </Button>
 
-                <Button
-                    key={'MyPage'}
-                    sx={{ my: 2, color: "white", display: "block" }}
-                    onClick={() => history.push('/myPage')}
-                >
-                    Romance movies
-                </Button>
+                        <Button
+                            key={'MyPage'}
+                            sx={{ my: 2, color: "white", display: "block" }}
+                            onClick={() => history.push('/myPage')}
+                        >
+                            Romance movies
+                        </Button>
 
 
-            </Box>
-            </Toolbar>
-        </Container>
-      </AppBar>
+                    </Box>
+                    </Toolbar>
+                </Container>
+            </AppBar>
+        </MuiThemeProvider>
       </Grid>
 
-    
       <Grid item>
         <Typography
-          variant={"h3"}
-          align="flex-start"
+            variant="h3"
+            noWrap
+            href="/"
+            align = "center"
+            sx={{
+            fontFamily: "monospace",
+            fontWeight: 700,
+            letterSpacing: ".1rem",
+            color: "inherit",
+            }}
         >
           IMDB Review Page
         </Typography>
       </Grid>
 
-      <MovieSelection
-        movieTitle = {movieTitle}
-        movieTitleChange = {movieTitleChange}
-        movies = {movies}
-      />
+      <Container maxWidth = 'sm'>
+        <MovieSelection
+            movieTitle = {movieTitle}
+            movieTitleChange = {movieTitleChange}
+            movies = {movies}
+        />
 
-      <ReviewTitle
-        movieReviewTitle={movieReviewTitle}
-        movieReviewTitleChange={movieReviewTitleChange}
-      />
+        <ReviewTitle
+            movieReviewTitle={movieReviewTitle}
+            movieReviewTitleChange={movieReviewTitleChange}
+        />
 
-      <ReviewBody
-        movieReview={movieReview}
-        movieReviewChange={movieReviewChange}
-      />
+        <ReviewBody
+            movieReview={movieReview}
+            movieReviewChange={movieReviewChange}
+        />
 
-      <ReviewRating
-        movieRating={movieRating}
-        movieRatingChange={movieRatingChange}
-      />
+        <ReviewRating
+            movieRating={movieRating}
+            movieRatingChange={movieRatingChange}
+        />
 
-      <Grid item>
-        <Button
-          variant="outlined"
-          onClick={movieEmpty}
-        >
-          Submit
-        </Button>
-        <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          />
-      </Grid>
+        <Grid item>
+            <Box sx={{p:2}}>
+                <FormControl fullWidth>
+                    <Button
+                    variant="outlined"
+                    onClick={movieEmpty}
+                    >
+                    Submit
+                    </Button>
+                    <ToastContainer
+                    position="top-center"
+                    autoClose={5000}
+                    hideProgressBar
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    />
+                </FormControl>
+            </Box>
+        </Grid>
+      </Container>
     </Grid>
 
   )

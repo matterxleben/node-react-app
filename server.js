@@ -107,10 +107,10 @@ app.post('/api/searchMovies', (req, res) => {
 	let connection = mysql.createConnection(config);
 	// let sql = `SELECT * FROM directors WHERE first_name = ? AND last_name = ?;`;
 	
-	let sql = `SELECT m.name, d.first_name, d.last_name, rev.reviewContent, sc.averageScore
-	FROM Review rev
-	LEFT OUTER JOIN movies m ON rev.movieID = m.id
-	LEFT OUTER JOIN movies_directors md ON rev.movieID = md.movie_id 
+	let sql = `SELECT m.name, d.first_name, d.last_name, GROUP_CONCAT(rev.reviewContent SEPARATOR ", ") as reviewContentList, sc.averageScore
+	FROM movies m
+	LEFT OUTER JOIN Review rev ON m.id = rev.movieID
+	LEFT OUTER JOIN movies_directors md ON m.id = md.movie_id 
 	LEFT OUTER JOIN directors d ON md.director_id = d.id
 	LEFT OUTER JOIN ( 
 	SELECT movieID, avg(reviewScore) as averageScore
@@ -126,11 +126,11 @@ app.post('/api/searchMovies', (req, res) => {
 	RIGHT OUTER JOIN roles r ON m.id = r.movie_id
 	LEFT OUTER JOIN actors a ON r.actor_id = a.id
 	WHERE a.first_name LIKE ?
-	AND a.last_name LIKE ? )`;
+	AND a.last_name LIKE ? )
+	GROUP BY m.name, d.first_name, d.last_name, sc.averageScore`;
 	
 	
-	//console.log(sql);
-	//let data = [title, actorFirstName, actorLastName, directorFirstName, directorLastName]
+	
 	let data = [title, directorFirstName, directorLastName, actorFirstName, actorLastName]
 	console.log(data);
 

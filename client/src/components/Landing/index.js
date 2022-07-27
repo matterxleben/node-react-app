@@ -15,28 +15,24 @@ const Landing = () => {
         container
         spacing={8}
         direction="column"
-        justify="flex-start"
-        alignItems="flex-start"
-        style={{ minHeight: '100vh' }}
     >
-        <Grid item xs = {12}>
+        <Grid item>
 
-        <AppBar position="static">
+        <AppBar position="static" style={{background:"purple"}}>
         <Container maxWidth="xl">
             <Toolbar disableGutters>
             <Typography
                 variant="h6"
                 noWrap
-                component="a"
                 href="/"
                 sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
-                fontWeight: 700,
-                letterSpacing: ".3rem",
-                color: "inherit",
-                textDecoration: "none"
+                    mr: 2,
+                    display: { xs: "none", md: "flex" },
+                    fontFamily: "monospace",
+                    fontWeight: 700,
+                    letterSpacing: ".3rem",
+                    color: "inherit",
+                    textDecoration: "none"
                 }}
             >
                 Matts IMDB Page
@@ -79,33 +75,29 @@ const Landing = () => {
                 variant="h3"
                 noWrap
                 href="/"
+                align = 'center'
                 sx={{
-                mr: 2,
-                display: { xs: "none", md: "flex" },
                 fontFamily: "monospace",
                 fontWeight: 700,
-                letterSpacing: ".3rem",
+                letterSpacing: ".01rem",
                 color: "inherit",
-                textDecoration: "none"
                 }}
                 >
-                Welcome to Matt's IMDB Landing Page
+                Welcome to Matt's Movie Review Website!
                 </Typography>
             </Grid>
 
             <Grid item>
                     <Typography
-                        variant="h6"
+                        variant="h5"
                         noWrap
                         href="/"
+                        align = 'center'
                         sx={{
-                        mr: 2,
-                        display: { xs: "none", md: "flex" },
                         fontFamily: "monospace",
                         fontWeight: 700,
-                        letterSpacing: ".3rem",
+                        letterSpacing: ".01rem",
                         color: "inherit",
-                        textDecoration: "none"
                         }}
                     >
                         <p>
@@ -114,16 +106,19 @@ const Landing = () => {
                             By: Matthew Erxleben
                             <br></br>
                             <br></br>
-                            The user can use the App Bar to navigate to different pages
+                            This website is a movie reviewing platform, similar to IMDB!
+                            
                             <br></br>
                             <br></br>
-                            Functionalities of each page:
+                            Functionalities:
                             <br></br>
-                            1. Search: User can search for movies
+                            App Bar: User can use the App Bar at the top of the screen to navigate to different pages
                             <br></br>
-                            2. Reviews: User can enter movie reviews and store them
+                            Page 1) Search: User can search for movies based on Movie Title, Actor Name, and/or Director Name
                             <br></br>
-                            3. Romance movies: Displays all Romance Movies 
+                            Page 2) Reviews: User can enter movie reviews to add to the database
+                            <br></br>
+                            Page 3) Romance movies: Displays all Romance Movies and links their Movie Trailers
 
                         </p>
                     </Typography>
