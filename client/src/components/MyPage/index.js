@@ -7,9 +7,6 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Grid from "@material-ui/core/Grid";
 import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -18,11 +15,11 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import history from '../Navigation/history';
 
 //Dev mode
-const serverURL = ""; //enable for dev mode
+//const serverURL = ""; //enable for dev mode
 
 //Deployment mode instructions
 // const serverURL = "http://ov-research-4.uwaterloo.ca:3061"; //enable for deployed mode; Change PORT to the port number given to you;
-//const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com:3061"; //enable for deployed mode; Change PORT to the port number given to you; 
+const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com:3061"; //enable for deployed mode; Change PORT to the port number given to you; 
 
 //To find your port number: 
 //ssh to ov-research-4.uwaterloo.ca and run the following command: 
@@ -79,7 +76,7 @@ const MyPage = () => {
         direction="column"
     >
         <Grid item>
-            <AppBar position="static" style={{background:"purple"}}>
+            <AppBar position="static" style={{background:"#ffbdc9"}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                 <Typography
@@ -93,7 +90,7 @@ const MyPage = () => {
                     fontFamily: "monospace",
                     fontWeight: 700,
                     letterSpacing: ".3rem",
-                    color: "inherit",
+                    color: "black",
                     textDecoration: "none"
                     }}
                 >
@@ -103,7 +100,7 @@ const MyPage = () => {
 
                     <Button
                         key={'Search'}
-                        sx={{ my: 2, color: "white", display: "block" }}
+                        sx={{ my: 2, color: "black", display: "block" }}
                         onClick={() => history.push('/search')}
                     >
                         Search
@@ -111,7 +108,7 @@ const MyPage = () => {
 
                     <Button
                         key={'Search'}
-                        sx={{ my: 2, color: "white", display: "block" }}
+                        sx={{ my: 2, color: "black", display: "block" }}
                         onClick={() => history.push('/reviews')}
                     >
                         Reviews
@@ -119,7 +116,7 @@ const MyPage = () => {
 
                     <Button
                         key={'MyPage'}
-                        sx={{ my: 2, color: "white", display: "block" }}
+                        sx={{ my: 2, color: "black", display: "block" }}
                         onClick={() => history.push('/myPage')}
                     >
                         Romance movies
@@ -190,7 +187,7 @@ const MyPage = () => {
                             <ListItem disablePadding>
                                 <ListItemText primary={movie.name} secondary= {'Release Year: ' + movie.year}/>
                             </ListItem>
-                            <Button variant="contained" href={movie.trailer}>
+                            <Button variant="contained" href={movie.trailer} sx={{color: 'black', backgroundColor: '#ffbdc9'}}>
                                 Movie Trailer
                             </Button>
                         </Box>
