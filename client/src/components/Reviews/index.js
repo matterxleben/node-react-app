@@ -1,15 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import CssBaseline from "@material-ui/core/CssBaseline";
-import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-//import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-// import { makeStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-// import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import TextField from '@material-ui/core/TextField';
@@ -25,16 +18,16 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-// import Button from "@mui/material/Button";
+
 import history from '../Navigation/history';
 
 
 //Dev mode
-const serverURL = ""; //enable for dev mode
+//const serverURL = ""; //enable for dev mode
 
 //Deployment mode instructions
 // const serverURL = "http://ov-research-4.uwaterloo.ca:3061"; //enable for deployed mode; Change PORT to the port number given to you;
-//const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com:3061"; //enable for deployed mode; Change PORT to the port number given to you; 
+const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com:3061"; //enable for deployed mode; Change PORT to the port number given to you; 
 
 //To find your port number: 
 //ssh to ov-research-4.uwaterloo.ca and run the following command: 
@@ -43,8 +36,8 @@ const serverURL = ""; //enable for dev mode
 
 const fetch = require("node-fetch");
 
-const opacityValue = 0.9;
-
+// const opacityValue = 0.9;
+/*
 const theme = createTheme({
     palette: {
       type: 'dark',
@@ -52,13 +45,14 @@ const theme = createTheme({
         default: "#000000"
       },
       primary: {
-        main: "#52f1ff",
+        main: "#ffffff",
       },
       secondary: {
         main: "#b552f7",
       },
     },
   });
+
 
 const styles = theme => ({
   root: {
@@ -89,6 +83,8 @@ const styles = theme => ({
   },
 
 });
+
+*/
 
 
 class Home extends Component {
@@ -135,10 +131,7 @@ class Home extends Component {
 
   render() {
     return (
-        
-            <div>
-                <Review />
-            </div>
+        <Review />
     );
   }
 }
@@ -180,9 +173,8 @@ const ReviewTitle = ({movieReviewTitle, movieReviewTitleChange}) => {
       <Box sx={{p:2}}>
         <FormControl fullWidth>
             <TextField
-                id="filled-basic"
+                id="standard-multiline-flexible"
                 label="Enter a Title for the Movie Review:"
-                variant="filled"
                 value={movieReviewTitle}
                 onChange={movieReviewTitleChange}
             />
@@ -387,8 +379,7 @@ const Review = () => {
     >
     
     <Grid item>
-        <MuiThemeProvider theme={theme}>
-            <AppBar position="static" style={{background:"purple"}}>
+            <AppBar position="static" style={{background:"#ffbdc9"}}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                     <Typography
@@ -402,7 +393,7 @@ const Review = () => {
                         fontFamily: "monospace",
                         fontWeight: 700,
                         letterSpacing: ".3rem",
-                        color: "inherit",
+                        color: "black",
                         textDecoration: "none"
                         }}
                     >
@@ -412,7 +403,7 @@ const Review = () => {
 
                         <Button
                             key={'Search'}
-                            sx={{ my: 2, color: "white", display: "block" }}
+                            sx={{ my: 2, color: "black", display: "block" }}
                             onClick={() => history.push('/search')}
                         >
                             Search
@@ -420,7 +411,7 @@ const Review = () => {
 
                         <Button
                             key={'Search'}
-                            sx={{ my: 2, color: "white", display: "block" }}
+                            sx={{ my: 2, color: "black", display: "block" }}
                             onClick={() => history.push('/reviews')}
                         >
                             Reviews
@@ -428,7 +419,7 @@ const Review = () => {
 
                         <Button
                             key={'MyPage'}
-                            sx={{ my: 2, color: "white", display: "block" }}
+                            sx={{ my: 2, color: "black", display: "block" }}
                             onClick={() => history.push('/myPage')}
                         >
                             Romance movies
@@ -439,7 +430,6 @@ const Review = () => {
                     </Toolbar>
                 </Container>
             </AppBar>
-        </MuiThemeProvider>
       </Grid>
 
       <Grid item>
@@ -485,8 +475,9 @@ const Review = () => {
             <Box sx={{p:2}}>
                 <FormControl fullWidth>
                     <Button
-                    variant="outlined"
+                    variant="contained"
                     onClick={movieEmpty}
+                    sx={{color: 'black', backgroundColor: '#ffbdc9', borderColor: 'grey'}}
                     >
                     Submit
                     </Button>
@@ -511,4 +502,4 @@ const Review = () => {
 
 }
 
-export default withStyles(styles)(Home)
+export default Review;

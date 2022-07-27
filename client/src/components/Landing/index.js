@@ -18,7 +18,7 @@ const Landing = () => {
     >
         <Grid item>
 
-        <AppBar position="static" style={{background:"purple"}}>
+        <AppBar position="static" style={{background:"#ffbdc9"}}>
         <Container maxWidth="xl">
             <Toolbar disableGutters>
             <Typography
@@ -31,7 +31,7 @@ const Landing = () => {
                     fontFamily: "monospace",
                     fontWeight: 700,
                     letterSpacing: ".3rem",
-                    color: "inherit",
+                    color: "black",
                     textDecoration: "none"
                 }}
             >
@@ -41,7 +41,7 @@ const Landing = () => {
 
                 <Button
                     key={'Search'}
-                    sx={{ my: 2, color: "white", display: "block" }}
+                    sx={{ my: 2, color: "black", display: "block" }}
                     onClick={() => history.push('/search')}
                 >
                     Search
@@ -49,7 +49,7 @@ const Landing = () => {
 
                 <Button
                     key={'Search'}
-                    sx={{ my: 2, color: "white", display: "block" }}
+                    sx={{ my: 2, color: "black", display: "block" }}
                     onClick={() => history.push('/reviews')}
                 >
                     Reviews
@@ -57,7 +57,7 @@ const Landing = () => {
 
                 <Button
                     key={'MyPage'}
-                    sx={{ my: 2, color: "white", display: "block" }}
+                    sx={{ my: 2, color: "black", display: "block" }}
                     onClick={() => history.push('/myPage')}
                 >
                     Romance movies

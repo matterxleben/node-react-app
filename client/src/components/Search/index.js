@@ -7,9 +7,6 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import history from '../Navigation/history';
 import Grid from "@material-ui/core/Grid";
-import SearchIcon from '@mui/icons-material/Search';
-import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
 import TextField from '@material-ui/core/TextField';
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -18,11 +15,11 @@ import Divider from "@mui/material/Divider";
 import { FormControl } from "@material-ui/core";
 
 //Dev mode
-const serverURL = ""; //enable for dev mode
+//const serverURL = ""; //enable for dev mode
 
 //Deployment mode instructions
 // const serverURL = "http://ov-research-4.uwaterloo.ca:3061"; //enable for deployed mode; Change PORT to the port number given to you;
-//const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com:3061"; //enable for deployed mode; Change PORT to the port number given to you; 
+const serverURL = "http://ec2-18-216-101-119.us-east-2.compute.amazonaws.com:3061"; //enable for deployed mode; Change PORT to the port number given to you; 
 
 //To find your port number: 
 //ssh to ov-research-4.uwaterloo.ca and run the following command: 
@@ -39,13 +36,11 @@ const Search = () => {
     const [title, setTitle] = React.useState('')
 
     const[actorName, setActorName] = React.useState('')
-    const[actorNameList, setActorNameList] = React.useState('')
     const[actorFirstName, setActorFirstName] = React.useState('')
     const[actorLastName, setActorLastName] = React.useState('')
 
     
     const[directorName, setDirectorName] = React.useState('')
-    const[directorNameList, setDirectorNameList] = React.useState('')
     const[directorFirstName, setDirectorFirstName] = React.useState('')
     const[directorLastName, setDirectorLastName] = React.useState('')
 
@@ -150,7 +145,7 @@ const Search = () => {
         direction="column"
         >
             <Grid item>
-                <AppBar position="static" style={{background:"purple"}}>
+                <AppBar position="static" style={{background:"#ffbdc9"}}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                     <Typography
@@ -164,7 +159,7 @@ const Search = () => {
                         fontFamily: "monospace",
                         fontWeight: 700,
                         letterSpacing: ".3rem",
-                        color: "inherit",
+                        color: "black",
                         textDecoration: "none"
                         }}
                     >
@@ -174,7 +169,7 @@ const Search = () => {
 
                         <Button
                             key={'Search'}
-                            sx={{ my: 2, color: "white", display: "block" }}
+                            sx={{ my: 2, color: "black", display: "block" }}
                             onClick={() => history.push('/search')}
                         >
                             Search
@@ -182,7 +177,7 @@ const Search = () => {
 
                         <Button
                             key={'Search'}
-                            sx={{ my: 2, color: "white", display: "block" }}
+                            sx={{ my: 2, color: "black", display: "block" }}
                             onClick={() => history.push('/reviews')}
                         >
                             Reviews
@@ -190,7 +185,7 @@ const Search = () => {
 
                         <Button
                             key={'MyPage'}
-                            sx={{ my: 2, color: "white", display: "block" }}
+                            sx={{ my: 2, color: "black", display: "block" }}
                             onClick={() => history.push('/myPage')}
                         >
                             Romance movies
@@ -291,6 +286,7 @@ const Search = () => {
                         <Button
                         variant="outlined"
                         onClick={submitOnClick}
+                        sx={{color: 'black', backgroundColor: '#ffbdc9', borderColor: 'grey'}}
                         >
                         Submit
                         </Button>
